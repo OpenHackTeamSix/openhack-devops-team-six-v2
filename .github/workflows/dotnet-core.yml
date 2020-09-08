@@ -18,6 +18,6 @@ jobs:
       with:
         dotnet-version: 2.1
     - name: Build
-      run: dotnet build --configuration Release --source openhack-devops-team-six-v2/apis/poi/web/
+      run: dotnet build --configuration Release --source **/apis/poi/poi.sln
     - name: Test
       run: dotnet test --no-restore --verbosity normal
