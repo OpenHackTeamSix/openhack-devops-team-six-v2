@@ -17,9 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.1
-    - name: Install dependencies
-      run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release --no-restore --source apis/poi/web/poi.csproj
+      run: dotnet build --configuration Release --source apis/poi/web/poi.csproj
     - name: Test
       run: dotnet test --no-restore --verbosity normal
