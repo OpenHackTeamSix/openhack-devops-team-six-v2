@@ -20,6 +20,6 @@ jobs:
     - name: Where I am
       run: pwd
     - name: Build
-      run: dotnet build --configuration Release --source */apis/poi/poi.sln
+      run: dotnet build --configuration Release --source /apis/poi
     - name: Test
       run: dotnet test --no-restore --verbosity normal
