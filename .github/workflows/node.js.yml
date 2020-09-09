@@ -7,12 +7,12 @@ on:
   push:
     branches: [ master ]
     paths:
-      - 'apis/user-java/*'
+      - 'apis/userprofile/*'
     
   pull_request:
     branches: [ master ]
     paths:
-      - 'apis/user-java/*'
+      - 'apis/userprofile/*'
 
 jobs:
   build:
