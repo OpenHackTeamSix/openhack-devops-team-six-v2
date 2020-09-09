@@ -1,9 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Collections.Generic;
-using poi.Models;
 using poi.Data;
+using poi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace poi.Controllers
 {
@@ -22,7 +22,7 @@ namespace poi.Controllers
         [Produces("application/json", Type = typeof(POI))]
         public List<POI> GetAll()
         {
-            return _context.POIs.ToList();
+            return _context.POIs.ToList()
         }
 
         [HttpGet("{ID}", Name = "GetPOIById")]
