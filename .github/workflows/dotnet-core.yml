@@ -31,6 +31,6 @@ jobs:
         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
         --header 'content-type: application/json' \
         --data '{
-         "title": "Automated issue for commit: ${{ github.sha }}",
+         "title": "BUILD FAILURE for commit: ${{ github.sha }}",
          "body": "This issue was automagically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}"
          }'
