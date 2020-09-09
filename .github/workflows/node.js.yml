@@ -29,7 +29,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
+    - run: npm ci apis/userprofile/
     - run: npm run build apis/userprofile/ --if-present
     - run: npm test apis/userprofile/
     - name: Failure
