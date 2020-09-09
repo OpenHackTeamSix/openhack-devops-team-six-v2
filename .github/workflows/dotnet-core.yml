@@ -16,14 +16,10 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.1eewq
+        dotnet-version: 2.1
     - name: Where I am
       run: pwd
     - name: Build
       run: dotnet build apis/poi/poi.sln --configuration Release
     - name: Test
       run: dotnet test apis/poi/poi.sln --no-restore --verbosity normal
-    - name: Git Issue Creation
-      # You may pin to the exact commit or the version.
-      # uses: bryannice/gitactions-git-issue-creation@cec3e85f7c6b9038833f612e9503a2fa79ec6cfb
-      uses: bryannice/gitactions-git-issue-creation@2.1.0
