@@ -29,8 +29,8 @@ jobs:
         - name: 'Build and push image'
           working-directory: apis/poi/web/
           run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/sampleapp:${{ github.sha }}
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-poi:${{ github.sha }}
 
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
