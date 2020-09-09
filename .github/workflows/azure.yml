@@ -1,6 +1,12 @@
-on: [push]
 name: Linux_Container_Workflow
 
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'apis/poi/**'
+  
 jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
