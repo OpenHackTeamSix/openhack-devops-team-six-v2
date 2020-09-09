@@ -6,7 +6,7 @@ on:
     paths:
       - 'apis/poi/*'
   pull_request:
-    branches: [ master ]
+    branches: /*
     paths:
       - 'apis/poi/*'
 
