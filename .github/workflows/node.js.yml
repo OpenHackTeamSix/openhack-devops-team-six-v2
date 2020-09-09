@@ -15,6 +15,7 @@ on:
       - 'apis/userprofile/*'
 
 jobs:
+  
   build:
 
     runs-on: ubuntu-latest
@@ -22,18 +23,19 @@ jobs:
     strategy:
       matrix:
         node-version: [8.x]
-
+      
     steps:
+    - working-directory: apis/userprofile/
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - name: nmp ci
-      working-directory: apis/userprofile/
-      run: npm ci
-    - run: npm run build apis/userprofile/ --if-present
-    - run: npm test apis/userprofile/
+      
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
     - name: Failure
       if: ${{ failure() }}
       run: | 
