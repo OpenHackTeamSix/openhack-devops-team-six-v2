@@ -5,12 +5,14 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
     paths:
       - 'apis/userprofile/*'
     
   pull_request:
-    branches: [ master ]
+    branches: 
+      - '**'
     paths:
       - 'apis/userprofile/*'
 
@@ -26,6 +28,9 @@ jobs:
       
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 0
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
