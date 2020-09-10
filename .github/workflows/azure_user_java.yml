@@ -1,11 +1,11 @@
-name: Linux_Container_Workflow
+name: Java
 
 on:
   push:
     branches:
       - 'master'
     paths:
-      - 'apis/poi/**'
+      - 'apis/user-java/**'
   
 jobs:
     build-and-deploy:
