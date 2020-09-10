@@ -1,1 +1,68 @@
-name: userprofile-feature
+name: userprofile-master
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'apis/userprofile/*'
+
+jobs:
+  
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x]
+      
+    steps:
+    
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 0
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: nmp ci
+      working-directory: apis/userprofile/
+      run: npm ci
+      
+    - name: nmp run
+      working-directory: apis/userprofile/
+      run: npm run build --if-present
+      
+    - name: nmp test
+      working-directory: apis/userprofile/
+      run: npm test
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure CLI Action
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: | 
+          echo "Changing directory to ./apis/userprofile/web..."
+          cd "apis/userprofile/web"
+          az acr build --image "devopsoh/api-userprofile:latest" --registry openhack5qk81i73acr --file Dockerfile .
+          az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73userprofile --slot staging --target-slot production
+          
+    - name: Failure
+      if: ${{ failure() }}
+      run: | 
+        curl --request POST \
+        --url https://api.github.com/repos/${{ github.repository }}/issues \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        --header 'content-type: application/json' \
+        --data '{
+         "title": "BUILD FAILURE for commit: ${{ github.sha }}",
+         "body": "This issue was automagically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}"
+         }'
