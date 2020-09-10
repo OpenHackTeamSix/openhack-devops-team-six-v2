@@ -3,6 +3,7 @@ name: userprofile-feature
 on:
 
   pull_request:
+    types: [opened, edited]
     branches: 
       - '**'
     paths:
