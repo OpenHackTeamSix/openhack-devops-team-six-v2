@@ -1,4 +1,4 @@
-name: Linux_Container_Workflow
+name: Azure_poi_Workflow
 
 on:
   push:
@@ -23,8 +23,8 @@ jobs:
           uses: Azure/cli@v1.0.0
           with:
             inlineScript: | 
-              echo "Changing directory to ${{ GITHUB_WORKSPACE }}/apis/poi/web..."
-              cd "${{ GITHUB_WORKSPACE }}/apis/poi/web"
+              echo "Changing directory to ${{ github.workspace }}/apis/poi/web..."
+              cd "${{ github.workspace }}/apis/poi/web"
               az acr build --image "devopsoh/api-poi:latest" --registry openhack5qk81i73acr --file Dockerfile .
               az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot staging --target-slot production
             
