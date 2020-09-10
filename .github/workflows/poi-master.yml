@@ -33,6 +33,23 @@ jobs:
       run: dotnet build apis/poi/poi.sln --configuration Release
     - name: Test
       run: dotnet test apis/poi/poi.sln --no-restore --verbosity normal
+      
+    - name: 'Login via Azure CLI'
+      on: 
+        branch: master
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure CLI Action
+      uses: Azure/cli@v1.0.0
+      with:
+        inlineScript: | 
+          echo "Changing directory to ./apis/poi/web..."
+          cd "apis/poi/web"
+          az acr build --image "devopsoh/api-poi:latest" --registry openhack5qk81i73acr --file Dockerfile .
+          az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot staging --target-slot production
+
     - name: Failure
       if: ${{ failure() }}
       run: | 
