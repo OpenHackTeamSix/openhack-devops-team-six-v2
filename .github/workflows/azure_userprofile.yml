@@ -5,7 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-      - 'apis/poi/**'
+      - 'apis/userprofile/**'
   
 jobs:
     build-and-deploy:
