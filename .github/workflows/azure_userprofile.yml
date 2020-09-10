@@ -26,14 +26,14 @@ jobs:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
-        - name: 'Build and push image'
-          working-directory: apis/poi/web/
+        - name: 'Build and push User Profile image'
+          working-directory: apis\userprofile
           run: |
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-poi:latest
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-poi:latest
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-userprofile:latest
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/devopsoh/api-userprofile:latest
         - name: Azure CLI Action
           uses: Azure/cli@v1.0.0
           with:
             inlineScript: | 
-              az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot staging --target-slot production
+              az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73userprofile --slot staging --target-slot production
             
