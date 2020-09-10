@@ -45,8 +45,8 @@ jobs:
       uses: Azure/cli@v1.0.0
       with:
         inlineScript: | 
-          echo "Changing directory to ./apis/userprofile/web..."
-          cd "apis/userprofile/web"
+          echo "Changing directory to ./apis/userprofile..."
+          cd "apis/userprofile"
           az acr build --image "devopsoh/api-userprofile:latest" --registry openhack5qk81i73acr --file Dockerfile .
           az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73userprofile --slot staging --target-slot production
           
