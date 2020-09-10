@@ -1,0 +1,11 @@
+name: userprofile-feature
+
+on:
+
+  pull_request:
+    branches: 
+      - '**'
+    paths:
+      - 'apis/userprofile/*'
+      
+    
