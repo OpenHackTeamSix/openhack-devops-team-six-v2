@@ -40,39 +40,30 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Azure CLI Action
+    - name: Azure CLI - Push Docker Image
       uses: Azure/cli@v1.0.0      
       with:
-        inlineScript: | 
-          $urlPoi = 'https://openhack5qk81i73poi-staging.azurewebsites.net/api/healthcheck/poi'
+        inlineScript: |           
           echo "Changing directory to ./apis/poi/web..."
-          cd "apis/poi/web"
-          
+          cd "apis/poi/web"          
           #push image to docker registry
           az acr build --image "devopsoh/api-poi:latest" --registry openhack5qk81i73acr --file Dockerfile .
-                    
-          Start-Sleep -s 5
           
-          #call health check
-          Write-Information "Healt check of the POI"
-          $poiResponse = Invoke-WebRequest `
-          -UseBasicParsing $urlPoi `
-          -Method Get `
-          -Headers $Header
-          
-          if($poiResponse.StatusDescription -eq 'OK')
-          {
-              Write-Information "Swapping Image to production"
-              az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot staging --target-slot production              
-              Write-Information "Swapping Image to production is OK"
-          }
-          else
-          {
-            #if healthcheck is false swap back staging slot
-            Write-Information "Healt check of the POI"
-            az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot production --target-slot staging
-            throw "Poi health check failed. Swap to Production stopped";
-          }
+    - name: Health check
+      shell: pwsh
+      run: |
+        $poiResponse = Invoke-WebRequest -UseBasicParsing https://openhack5qk81i73poi-staging.azurewebsites.net/api/healthcheck/poi -Method Get
+        if($poiResponse.StatusDescription -ne 'OK')
+        {
+            throw "POI Health check failed"
+        }
+        
+    - name: Azure CLI - Swap Image
+      uses: Azure/cli@v1.0.0      
+      with:
+        inlineScript: |                    
+          az webapp deployment slot swap -g ${{ secrets.RESOURCE_GROUP }} -n openhack5qk81i73poi --slot staging --target-slot production
+                   
     - name: Failure
       if: ${{ failure() }}
       run: | 
